@@ -85,7 +85,7 @@ Two main decisions: **which base image** and **what type of noise**.
 
 **How the 4,092 sine-wave parameters arise:**
 
-- **5 spatial scales (layers)**: the image is divided into 1×1, 2×2, 4×4, 8×8 and 16×16 patches, giving 1 + 4 + 16 + 64 + 256 = **341 patches**.
+- **5 spatial scales (layers)**: the image is divided into 1×1, 2×2, 4×4, 8×8 and 16×16 patches, giving 1 + 4 + 16 + 64 + 256 = **341 patches**. In frequency terms these are **2, 4, 8, 16 and 32 cycles per image**.
 - In each patch: **6 orientations** (0°, 30°, 60°, 90°, 120°, 150°) × **2 phases** = **12 sine waves**.
 - 341 × 12 = **4,092** parameters. Each gets a random contrast weight from a uniform distribution on [−1, 1].
 - Stacking several scales gives both coarse (global shape) and fine (local detail) variation.
