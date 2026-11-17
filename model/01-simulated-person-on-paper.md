@@ -118,10 +118,18 @@ Predicted trials needed to reach cos = 0.9 (from N = (d − 1)/a² · c²/(1 −
 |---|---|
 | θ random, length 1 | `make_template(d)` |
 | n ~ N(0, I) | `make_noise(n_trials, d)` |
-| choose base + n if θᵀn + ε > 0 | `observer_choose(theta, noise, sigma)` → array of s ∈ {+1, −1} |
+| choose base + n if θᵀn + ε > 0 | `observer_choose(images, theta, sigma, k=1)` → boolean mask of the chosen images. General k-of-n rule: score each image u_i = θᵀx_i + η_i with **η_i ~ N(0, sigma²)** (per-image σ), and pick the top k. Images are stacked as `[base + n, base − n]`; `choices_to_sign(chosen)` gives s_t = +1 if column 0 (b + n) was chosen, else −1. |
 | CI = Σ s·n | `classification_image(noise, s)` |
 | cos(CI, θ) | `cosine(a, b)` |
 
-Each function that draws random numbers should take a random generator (seed) argument, so that runs are reproducible.
+**σ in this document vs. `sigma` in the code.** This document's σ is the noise in the 2IFC rule θᵀn + ε > 0. The code's `sigma` is the noise on **each image's score**. For a pair b ± n, u₁ > u₂ ⇔ θᵀn + (η₁ − η₂)/2 > 0, so
+
+```
+σ (this document) = sigma (code) / √2        sigma (code) = √2 · σ (this document)
+```
+
+To check the §6 predictions, either run the code with `sigma = √2 · σ`, or use a² = (2/π) / (1 + sigma²/2) in the formula.
+
+Each function that draws random numbers takes an `rng` argument (None, an int seed, or a `np.random.Generator`, passed to `np.random.default_rng`), so that runs are reproducible.
 
 The experiment loop sits on top of these functions: repeat the whole pipeline for **n_persons** simulated persons (e.g. 200) at each (N, d, σ) setting, then report the mean and SD of the cosine (see §6).
