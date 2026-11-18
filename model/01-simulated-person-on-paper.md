@@ -119,7 +119,7 @@ Predicted trials needed to reach cos = 0.9 (from N = (d − 1)/a² · c²/(1 −
 | θ random, length 1 | `make_template(d)` |
 | n ~ N(0, I) | `make_noise(n_trials, d)` |
 | choose base + n if θᵀn + ε > 0 | `observer_choose(images, theta, sigma, k=1)` → boolean mask of the chosen images. General k-of-n rule: score each image u_i = θᵀx_i + η_i with **η_i ~ N(0, sigma²)** (per-image σ), and pick the top k. Images are stacked as `[base + n, base − n]`; `choices_to_sign(chosen)` gives s_t = +1 if column 0 (b + n) was chosen, else −1. |
-| CI = Σ s·n | `classification_image(noise, s)` |
+| CI = Σ s·n | `classification_image(noise, choices)`, with `choices` = s_t ∈ {+1, −1} |
 | cos(CI, θ) | `cosine(a, b)` |
 
 **σ in this document vs. `sigma` in the code.** This document's σ is the noise in the 2IFC rule θᵀn + ε > 0. The code's `sigma` is the noise on **each image's score**. For a pair b ± n, u₁ > u₂ ⇔ θᵀn + (η₁ − η₂)/2 > 0, so
