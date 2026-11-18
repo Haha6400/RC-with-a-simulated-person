@@ -1,0 +1,4 @@
+n_trials,share_detected,mean_cos_all,mean_cos_detected,mean_cos_not_detected
+10,0.1285,0.5643,0.5713,0.5633
+20,0.3930,0.6909,0.6989,0.6856
+50,0.9330,0.8349,0.8360,0.8185
